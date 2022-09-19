@@ -1,0 +1,17 @@
+turns = ['Камінь', 'Ножиці', 'Папір']
+comp_turn = rand(3)
+puts 'Зробіть свій хід(0 - камінь, 1 - ножиці, 2 - папір):'
+user_turn = gets.to_i
+puts 'Хід компа: ' + turns[comp_turn]
+puts 'Ваш хід: ' + turns[user_turn]
+if user_turn == comp_turn
+  puts 'Нічия'
+elsif user_turn == 0 && comp_turn == 1 
+  puts 'Ви перемогли'
+elsif user_turn == 1 && comp_turn == 2 
+  puts 'Ви перемогли'
+elsif user_turn == 2 && comp_turn == 0 
+  puts 'Ви перемогли'
+else 
+  puts 'Переміг комп'
+end
