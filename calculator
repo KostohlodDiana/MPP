@@ -1,0 +1,25 @@
+puts 'FIRST NUMBER:'
+num1 = STDIN.gets.chomp.to_i
+puts 'SECOND NUMBER:'
+num2 = STDIN.gets.chomp.to_i
+
+puts 'SELECT OPERATION (+ - * /):'
+operation = STDIN.gets.chomp
+
+puts 'RESULT:'
+case operation
+when '+'
+  puts num1 + num2
+when '-'
+  puts num1 - num2
+when '*'
+  puts num1 * num2
+when '/'
+  begin
+    puts num1 / num2
+  rescue ZeroDivisionError => error
+    puts (error.message)
+  end
+else
+  puts 'Operation not found'
+end
