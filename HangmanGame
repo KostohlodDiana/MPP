@@ -1,0 +1,43 @@
+RANDOM_WORDS = %w[click mother newspaper butter wait check ocean rice phone rain pain wonder globe saturn climb soup dollhouse]
+hiddenWord = RANDOM_WORDS.sample
+
+guessedWord = ''
+hiddenWord.split('').each do
+  guessedWord += '_'
+end
+
+mistakes = 0
+
+while mistakes < 6
+  print 'Word: '
+  puts guessedWord
+
+  print 'Mistakes: '
+  puts mistakes
+
+  print 'Letter: '
+  letter = ''
+  while !letter or (letter and letter.length < 1)
+    letter = STDIN.gets.chomp.encode('UTF-8')[0]
+  end
+  puts ' '
+
+  guessedOneLetter = false
+  hiddenWord.split('').each_with_index do |i, index|
+    if letter === i
+      guessedOneLetter = true
+      guessedWord[index] = i
+    end
+  end
+
+  if guessedWord.gsub('_', '').length  === hiddenWord.length
+    puts 'You win)'
+    break
+  elsif !guessedOneLetter
+    mistakes += 1
+
+    if mistakes >= 6
+      puts 'You lose('
+    end
+  end
+end
