@@ -1,0 +1,42 @@
+def isStringBracketsCorrect(string, keyValueSchema)
+  if string.length % 2 != 0
+    return false
+  end
+
+  closedBracketsArray = []
+  string.chars do |char|
+    if (closedBracketByOpenBracket = keyValueSchema[char])
+      closedBracketsArray << closedBracketByOpenBracket
+    elsif closedBracketsArray.pop != char
+      return false
+    end
+  end
+
+  closedBracketsArray.length === 0
+end
+
+bracketsKeyValueObject = {
+  '(' => ')',
+  '[' => ']',
+  '{' => '}',
+}
+allBracketsString = bracketsKeyValueObject.keys + bracketsKeyValueObject.values
+inputString = ''
+
+for i in (1..6)
+  puts 'Enter bracket: '
+  bracket = ''
+  while !bracket or (bracket and bracket.length < 1)
+    bracket = STDIN.gets.chomp.encode('UTF-8')[0]
+  end
+  unless allBracketsString.include? bracket
+    next
+  end
+
+  inputString += bracket
+  puts 'Your string: ' + inputString
+
+  print 'Is string correct: '
+  puts isStringBracketsCorrect(inputString, bracketsKeyValueObject)
+  puts ''
+end
