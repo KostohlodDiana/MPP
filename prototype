@@ -1,0 +1,60 @@
+class Prototype
+  attr_accessor :primitive, :component, :circular_reference
+
+  def initialize
+    @primitive = nil
+    @component = nil
+    @circular_reference = nil
+  end
+
+  def clone
+    @component = deep_copy(@component)
+    @circular_reference = deep_copy(@circular_reference)
+    @circular_reference.prototype = self
+    deep_copy(self)
+  end
+
+  private def deep_copy(object)
+    Marshal.load(Marshal.dump(object))
+  end
+end
+
+class ComponentWithBackReference
+  attr_accessor :prototype
+
+  def initialize(prototype)
+    @prototype = prototype
+  end
+end
+
+
+p1 = Prototype.new
+p1.primitive = 245
+p1.component = Time.now
+p1.circular_reference = ComponentWithBackReference.new(p1)
+
+p2 = p1.clone
+
+if p1.primitive == p2.primitive
+  puts 'Примітивні значення полів були перенесені в клон...'
+else
+  puts 'Примітивні значення полів не були скопійовані...'
+end
+
+if p1.component.equal?(p2.component)
+  puts 'Простий компонент не був клонований...'
+else
+  puts 'Простий компонент був клонований...'
+end
+
+if p1.circular_reference.equal?(p2.circular_reference)
+  puts 'Компонент із зворотнім посиланням не був клонований...'
+else
+  puts 'Компонент із зворотнім посиланням був клонований...'
+end
+
+if p1.circular_reference.prototype.equal?(p2.circular_reference.prototype)
+  print "Компонент із зворотнім посиланням пов'язаний із оригіналом..."
+else
+  print "Компонент із зворотнім посиланням пов'язаний із клоном..."
+end
