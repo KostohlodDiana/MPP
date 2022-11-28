@@ -1,0 +1,21 @@
+def getWordEntries(inputString)
+  result = Hash.new
+  inputStringWords = inputString.downcase.scan(/[a-z']+/)
+  inputStringWords.each do |word|
+    if result.key? word
+      result[word] += 1
+    else result[word] = 1
+    end
+  end
+  result.sort_by {|word,times| times}.reverse
+end
+
+puts "Input string:"
+input = STDIN.gets.gsub("\n", ' ').squeeze(' ')
+wordsHash = getWordEntries(input)
+  puts "\nResults: "
+  i=1
+  wordsHash[0..2].each do |word,times|
+    puts "#{i}. #{word} (#{times} times)"
+    i+=1
+  end
